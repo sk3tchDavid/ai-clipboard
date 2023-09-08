@@ -1,25 +1,15 @@
 {
     "manifest_version": 3,
-    "name": "Clipboard Monitor",
+    "name": "ai-clipboard",
     "version": "1.0",
-    "description": "Monitors the clipboard for changes.",
+    "description": "Helps",
     "permissions": [
-      "clipboardRead",
-      "clipboarWrite"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"],
-        "run_at": "document_end"
-      }
+        "activeTab",
+        "clipboardRead",
+        "clipboardWrite"
     ],
     "action": {
-      "default_popup": "index.html",
-      "default_title": "Clipboard Monitor"
+      "default_popup": "popup.html"
     }
   }
   
