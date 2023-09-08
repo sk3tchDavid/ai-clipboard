@@ -1,14 +1,24 @@
 {
     "manifest_version": 3,
-    "name": "ai-clipboard",
+    "name": "Clipboard Monitor",
     "version": "1.0",
-    "description": "Runs your clipboard through an AI API and then adds the answer to your clipboard.",
-    "action":{
-        "default_popup": "index.html",
-        "default_title": "Latest Covid Report"
-    },
+    "description": "Monitors the clipboard for changes.",
     "permissions": [
-        "clipboardWrite",
-        "clipboardRead"
-    ]
-}
+      "clipboardRead"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+      }
+    ],
+    "action": {
+      "default_popup": "index.html",
+      "default_title": "Clipboard Monitor"
+    }
+  }
+  
