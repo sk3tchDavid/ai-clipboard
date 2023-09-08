@@ -3,8 +3,12 @@
     "name": "ai-clipboard",
     "version": "1.0",
     "description": "Runs your clipboard through an AI API and then adds the answer to your clipboard.",
+    "action":{
+        "default_popup": "index.html",
+        "default_title": "Latest Covid Report"
+    },
     "permissions": [
-      "activeTab",
-      "storage"
+        "clipboardWrite",
+        "clipboardRead"
     ]
 }
