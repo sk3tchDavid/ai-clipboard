@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "ai-clipboard",
+    "version": "1.0",
+    "description": "Runs your clipboard through an AI API and then adds the answer to your clipboard.",
+    "permissions": [
+      "activeTab",
+      "storage"
+    ]
+}
