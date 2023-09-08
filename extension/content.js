@@ -2,27 +2,29 @@ const myButton = document.getElementById('myButton');
 const statusIndicator = document.getElementById('statusPic');
 const cpInput = document.getElementById('textInput');
 
-myButton.addEventListener('click', function () {
+myButton.addEventListener('click', async function () {
   // Toggle between green and red
   if (statusIndicator.src.includes('red.png')) {
-    if (cpInput.value) {
-      // Copy the text from the input field to the clipboard
-      navigator.clipboard.writeText(cpInput.value)
-        .then(() => {
-          // Display the copied text - alert
-          const cp = cpInput.value;
-          alert(cp);
+    try {
+      if (cpInput.value) {
+        // userinput 
+        const userMessage = cpInput.value + ' only answer';
 
-          //green
-          statusIndicator.src = 'img/green.png';
-          console.log('Button clicked (green)');
-        })
-        .catch((error) => {
-          console.error('Error copying text to clipboard:', error);
-        });
-    } else {
-      // If the input field is empty
-      console.error('Input field is empty');
+        // Send to gpt
+        const response = await getGpt3Response(userMessage);
+
+        // alert answer
+        alert('GPT-3 Response: ' + response);
+
+        // green
+        statusIndicator.src = 'img/green.png';
+        console.log('Button clicked (green)');
+      } else {
+        // if its empty
+        console.error('Input field is empty');
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   } else {
     //red
@@ -30,3 +32,32 @@ myButton.addEventListener('click', function () {
     console.log('Button clicked (red)');
   }
 });
+
+async function getGpt3Response(message) {
+  const url = 'https://open-ai21.p.rapidapi.com/conversationgpt';
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-RapidAPI-Key': 'API KEY',//ADD API KEY FOR RAPIDAPI CHATGPT
+      'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com',
+    },
+    body: JSON.stringify({
+      messages: [
+        {
+          role: 'user',
+          content: message,
+        },
+      ],
+    }),
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const result = await response.text();
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    return 'An error occurred while fetching data from the API';
+  }
+}
