@@ -21,3 +21,8 @@ body {
   bottom: 8px;
   left: 7px;
 }
+
+  #textInput {
+    width: 5px;
+    padding: 0;
+  }
