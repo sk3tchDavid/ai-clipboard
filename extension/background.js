@@ -17,13 +17,3 @@ chrome.runtime.onInstalled.addListener(() => {
       });
     });
   });
-  
-  //
-//  Digitalisierung bezieht sich auf die Umwandlung analoger Informationen in digitale Formate.
-
-//  Datensicherheit schützt Daten vor unbefugtem Zugriff, während Datenschutz die Privatsphäre personenbezogener Daten gewährleistet.
-
-//  Personenbezogene Daten sind Informationen, die auf identifizierbare Personen verweisen, wie Name oder Adresse.
-
-//  Schutz personenbezogener Daten erfordert starke Passwörter, 2FA, Verschlüsselung und Wissen über Datenschutzgesetze.
-  //
