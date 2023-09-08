@@ -17,4 +17,7 @@ body {
 
 #statusPic {
   width: 5px;
+  position: absolute;
+  bottom: 8px;
+  left: 7px;
 }
