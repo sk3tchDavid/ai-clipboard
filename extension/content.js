@@ -39,7 +39,7 @@ async function getGpt3Response(message) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-RapidAPI-Key': 'API KEY',//ADD API KEY FOR RAPIDAPI CHATGPT
+      'X-RapidAPI-Key': 'API_KEY',//API KEY (ADD)
       'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com',
     },
     body: JSON.stringify({
