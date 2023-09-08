@@ -4,7 +4,8 @@
     "version": "1.0",
     "description": "Monitors the clipboard for changes.",
     "permissions": [
-      "clipboardRead"
+      "clipboardRead",
+      "clipboarWrite"
     ],
     "background": {
       "service_worker": "background.js"
