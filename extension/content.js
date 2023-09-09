@@ -1,37 +1,71 @@
-const myButton = document.getElementById('myButton');
 const statusIndicator = document.getElementById('statusPic');
 const cpInput = document.getElementById('textInput');
 
-myButton.addEventListener('click', async function () {
-  // Toggle between green and red
-  if (statusIndicator.src.includes('red.png')) {
-    try {
-      if (cpInput.value) {
-        // userinput 
-        const userMessage = cpInput.value + ' only answer';
+// Set the status to green
+statusIndicator.src = 'img/green.png';
 
-        // Send to gpt
-        const response = await getGpt3Response(userMessage);
+// Listen for the "keydown" event on the input field
+cpInput.addEventListener('keydown', function (event) {
+  // Check Enter
+  if (event.keyCode === 13) {
+    event.preventDefault(); // Prevent the default behavior
 
-        // alert answer
-        alert('GPT-3 Response: ' + response);
-
-        // green
-        statusIndicator.src = 'img/green.png';
-        console.log('Button clicked (green)');
-      } else {
-        // if its empty
-        console.error('Input field is empty');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  } else {
-    //red
+    // Change the status indicator to red
     statusIndicator.src = 'img/red.png';
-    console.log('Button clicked (red)');
+    console.log('Action triggered (red)');
+
+    // Toggle between green and red
+    setTimeout(() => {
+      // Toggle between green and red
+      if (statusIndicator.src.includes('red.png')) {
+        try {
+          if (cpInput.value) {
+            // Create the user input
+            const userMessage = cpInput.value + ' only answer';
+
+            // Send the user input to the GPT-3 API
+            getGpt3Response(userMessage)
+              .then((response) => {
+                alert('GPT-3 Response: ' + response);
+
+                // Change the status indicator back to green
+                statusIndicator.src = 'img/green.png';
+                console.log('Action triggered (green)');
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+
+                // Change the status indicator back to green
+                statusIndicator.src = 'img/green.png';
+                console.log('Action triggered (green)');
+              });
+          } else {
+            // If the input field is empty
+            console.error('Input field is empty');
+
+            // Change the status indicator back to green
+            statusIndicator.src = 'img/green.png';
+            console.log('Action triggered (green)');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+
+          // Change the status indicator back to green
+          statusIndicator.src = 'img/green.png';
+          console.log('Action triggered (green)');
+        }
+      } else {
+        // Change the status indicator back to green
+        statusIndicator.src = 'img/green.png';
+        console.log('Action triggered (green)');
+      }
+
+      // Clear the input field after processing
+      cpInput.value = '';
+    }, 1000); // delay
   }
 });
+
 
 async function getGpt3Response(message) {
   const url = 'https://open-ai21.p.rapidapi.com/conversationgpt';
