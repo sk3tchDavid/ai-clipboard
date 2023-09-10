@@ -60,7 +60,7 @@ cpInput.addEventListener('keydown', function (event) {
         console.log('Action triggered (green)');
       }
 
-      // Clear the input field after processing
+      // Clear the input field
       cpInput.value = '';
     }, 1000); // delay
   }
