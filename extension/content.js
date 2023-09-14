@@ -33,6 +33,18 @@ cpInput.addEventListener('keydown', async function (event) {
               } catch (error) {
                 console.error('Error copying to clipboard:', error);
               }
+            }
+            // Check if the input is just "p"
+            else if (cpInput.value === 'p') {
+              // If the input is "p", copy another specific text to the clipboard
+              const textToCopy = 'mich-me dich-te ihn-lo --- uns-nos euch-os sie-los/las';
+
+              try {
+                await navigator.clipboard.writeText(textToCopy);
+                console.log('Copied to clipboard:', textToCopy);
+              } catch (error) {
+                console.error('Error copying to clipboard:', error);
+              }
             } else {
               // Create the user input
               const userMessage = cpInput.value;
