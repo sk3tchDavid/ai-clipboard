@@ -1,6 +1,8 @@
 const statusIndicator = document.getElementById('statusPic');
 const cpInput = document.getElementById('textInput');
 
+document.getElementById('textInput').focus();
+
 // Set the status to green
 statusIndicator.src = 'img/green.png';
 
@@ -24,10 +26,19 @@ cpInput.addEventListener('keydown', async function (event) {
             const userMessage = cpInput.value;
 
             // Send the user input to the Chat GPT API
-            const response = await getChatGptResponse(userMessage, 500); // Set the max tokens to 1000
-            
-            // Display the response
-            alert('GPT-3.5 Turbo Response: ' + response.choices[0].text);
+            const response = await getChatGptResponse(userMessage, 1000);
+
+            // Get the response text from the API
+            const responseText = response.choices[0].text;
+
+            // Copy the response text to the clipboard
+            try {
+              await navigator.clipboard.writeText(responseText);
+
+              console.log('Copied to clipboard:', responseText);
+            } catch (error) {
+              console.error('Error copying to clipboard:', error);
+            }
 
             // Change the status indicator back to green
             statusIndicator.src = 'img/green.png';
@@ -61,7 +72,7 @@ cpInput.addEventListener('keydown', async function (event) {
 
 async function getChatGptResponse(message, maxTokens) {
   const url = 'https://api.openai.com/v1/engines/text-davinci-003/completions'; // GPT-3.5 Turbo endpoint
-  const apiKey = 'API_KEY'; // Ihr GPT-3.5 Turbo API-Schlüssel
+  const apiKey = 'API_KEY'; // GPT-3.5 Turbo API-KEY
 
   const headers = {
     'Content-Type': 'application/json',
@@ -69,7 +80,7 @@ async function getChatGptResponse(message, maxTokens) {
   };
 
   const data = {
-    prompt: message + " -nur kurze antwort",
+    prompt: message,
     max_tokens: maxTokens, // Set the max tokens to 1000
   };
 
