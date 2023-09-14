@@ -5,7 +5,7 @@ const cpInput = document.getElementById('textInput');
 statusIndicator.src = 'img/green.png';
 
 // Listen for the "keydown" event on the input field
-cpInput.addEventListener('keydown', function (event) {
+cpInput.addEventListener('keydown', async function (event) {
   // Check Enter
   if (event.keyCode === 13) {
     event.preventDefault(); // Prevent the default behavior
@@ -15,30 +15,23 @@ cpInput.addEventListener('keydown', function (event) {
     console.log('Action triggered (red)');
 
     // Toggle between green and red
-    setTimeout(() => {
+    setTimeout(async () => {
       // Toggle between green and red
       if (statusIndicator.src.includes('red.png')) {
         try {
           if (cpInput.value) {
             // Create the user input
-            const userMessage = cpInput.value + ' only answer';
+            const userMessage = cpInput.value;
 
-            // Send the user input to the GPT-3 API
-            getGpt3Response(userMessage)
-              .then((response) => {
-                alert('GPT-3 Response: ' + response);
+            // Send the user input to the Chat GPT API
+            const response = await getChatGptResponse(userMessage, 500); // Set the max tokens to 1000
+            
+            // Display the response
+            alert('GPT-3.5 Turbo Response: ' + response.choices[0].text);
 
-                // Change the status indicator back to green
-                statusIndicator.src = 'img/green.png';
-                console.log('Action triggered (green)');
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-
-                // Change the status indicator back to green
-                statusIndicator.src = 'img/green.png';
-                console.log('Action triggered (green)');
-              });
+            // Change the status indicator back to green
+            statusIndicator.src = 'img/green.png';
+            console.log('Action triggered (green)');
           } else {
             // If the input field is empty
             console.error('Input field is empty');
@@ -66,38 +59,35 @@ cpInput.addEventListener('keydown', function (event) {
   }
 });
 
+async function getChatGptResponse(message, maxTokens) {
+  const url = 'https://api.openai.com/v1/engines/text-davinci-003/completions'; // GPT-3.5 Turbo endpoint
+  const apiKey = 'API_KEY'; // Ihr GPT-3.5 Turbo API-Schlüssel
 
-async function getGpt3Response(message) {
-  const url = 'https://open-ai21.p.rapidapi.com/conversationgpt35';
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-RapidAPI-Key': 'API_KEY', //https://rapidapi.com/rphrp1985/api/open-ai21
-      'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com',
-    },
-    body: JSON.stringify({
-      messages: [
-        {
-          role: 'user',
-          content: message,
-        },
-      ],
-      stream: false,
-    }),
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  };
+
+  const data = {
+    prompt: message + " -nur kurze antwort",
+    max_tokens: maxTokens, // Set the max tokens to 1000
   };
 
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data),
+    });
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const result = await response.text();
+
+    const result = await response.json();
     return result;
   } catch (error) {
     console.error('Error:', error);
     return 'An error occurred while fetching data from the API';
   }
 }
-
-
