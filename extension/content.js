@@ -68,12 +68,12 @@ cpInput.addEventListener('keydown', function (event) {
 
 
 async function getGpt3Response(message) {
-  const url = 'https://open-ai21.p.rapidapi.com/conversationgpt';
+  const url = 'https://open-ai21.p.rapidapi.com/conversationgpt35';
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-RapidAPI-Key': 'API_KEY',//API KEY (ADD)
+      'X-RapidAPI-Key': 'API_KEY', //https://rapidapi.com/rphrp1985/api/open-ai21
       'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com',
     },
     body: JSON.stringify({
@@ -83,11 +83,15 @@ async function getGpt3Response(message) {
           content: message,
         },
       ],
+      stream: false,
     }),
   };
 
   try {
     const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
     const result = await response.text();
     return result;
   } catch (error) {
@@ -95,3 +99,5 @@ async function getGpt3Response(message) {
     return 'An error occurred while fetching data from the API';
   }
 }
+
+
